@@ -1,0 +1,13 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+canvas {
+  display: block;
+}
+js, input {
+  background-color: #000000;
+  color: white;
+  width: 90px;
+  transform: rotate(-7deg);
+}
