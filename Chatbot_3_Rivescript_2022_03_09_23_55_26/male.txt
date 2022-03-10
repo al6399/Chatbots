@@ -1,0 +1,125 @@
+! version = 2.0
+
+// Bot variables
+! var name = healthy lifestyle expert
+! var age  = 5
+
+// Substitutions
+! sub i'm     = i am
+! sub i'd     = i would
+! sub i've    = i have
+! sub i'll    = i will
+! sub don't   = do not
+! sub isn't   = is not
+! sub you'd   = you would
+! sub you're  = you are
+! sub you've  = you have
+! sub you'll  = you will
+! sub what's  = what is
+! sub whats   = what is
+! sub what're = what are
+! sub what've = what have
+! sub what'll = what will
+! sub who's   = who is
+! sub niño    = nino
+! sub one     = 1
+! sub two     = 2
+! sub three   = 3
+! sub four    = 4
+! sub five    = 5
+
+// OPENING
++ hello tias
+- <set reputation=0>hola mi niño como estas? "hello boy how are you?" {topic=greeting}
+
+//GREETING
+>topic greeting
+
++ [*] good|fine|great|amazing|ok|not bad [*]
+% hola mi nino como estas hello boy how are you
+- <add reputation=1>Muy bien. Estás en la escuela ahora? "Very good. Are you in school right now?"{topic=school}
+
++ [*] bad|horrible|terrible [*]
+% hola mi nino como estas hello boy how are you
+- <sub reputation=1>No te preocupes por eso muchacho. Estás en la escuela ahora?"Don't worry about it son. Are you in school right now?" {topic=school}
+
++ *
+- Dime, cómo estás? "Tell me, how are you?"
+
+<topic
+
+//SCHOOL
+>topic school
++ [*] no|nope|not [*]
+- <sub reputation=1>Ah, de verdad? La escuela es muy importante, no quieres terminar como tu tía. Tienes novia ahora? "oh really? School is very important, you dont want to end up like your tia. Do you have a grilfriend now?" {topic=girlfriend}
+
++ [*] yes|of course|i am [*]
+- <add reputation=1>Muy bien hijo. Necesitas poder mantener a tu futura esposa. Tienes novia ahora? "Very good son. You need to be able to support your future wife. Do you have a grilfriend now?" {topic=girlfriend}
+
++ *
+- Dime, estás en la escuela en este momento?"Tell me, are you in school right now?"
+
+
+<topic
+
+//GIRLFRIEND
+>topic girlfriend
++ [*] no|nope|not [*]
+- <sub reputation=1>Por qué no? Quieres hijos o no? "Why not? Do you want children or not?" {topic=children}
+
++ [*] yes|of course|i am [*]
+- <add reputation=1>Muy bien! Cuándo vas a proponer?"Very good! When are you going to propose?"{topic=engagement}
+
++ *
+- Dime, tienes novia ahora? "tell me, do you have a girlfriend right now?"
+ 
+<topic
+
+>topic ending
+
+
+//engagement
+>topic engagement
++ [in] # *
+- <set timeline=<star>><set time=<star2>><add reputation=2>En <get timeline> <get time>, maravilloso! Cuántos niños quieres?"In <get timeline> <get time>, marvelous! How many children do you want?"{topic=children}
+
++ [*] do not know|never|will not [*]
+- <sub reputation=1>Por qué no! No quieres hijos?"Why not? Don't you want children?"{topic=children}
+
++ [*] soon|shortly|next [*]
+- <add reputation=1>maravilloso! Cuántos niños quieres?"Marvelous! How many children do you want?"{topic=children}
+ 
+<topic
+
+//CHILDREN
+>topic children
+
++ #
+* <set userchildren=<star>> <get userchildren > 2 => <add reputation=2>Muy buen hijo, tendrás una gran familia. "Very good son, you will have a big family"{topic=ending}
+* <set userchildren=<star>> <get userchildren = 1 => <add reputation=1>Está bien, todavía tienes tiempo para tener más hijos."That's ok, you still have time to have more children."{topic=ending}
+-* <set userchildren=<star>> <get userchildren < 1 => <sub reputation=2>Más vale tarde que nunca.Todavía tienes tiempo "Better late than never, you still have time."{topic=ending}
+
++ [*] none [*]
+- <sub reputation=2>Más vale tarde que nunca.Todavía tienes tiempo "Better late than never, you still have time."{topic=ending}
+
++ [*] no|nope [*]
+- <sub reputation=2> Más vale tarde que nunca.Todavía tienes tiempo "Better late than never, you still have time."{topic=ending}
+
++ * 
+- Dime cuantos hijos quieres? "tell me, how many children do you want?" {topic=ending}
+
+<topic
+
+>topic ending
+
+  + *
+  * <get reputation> > 5 => your healthy life index is <get healthscore>. Keep up the good work!{topic=random}
+  
+  * <get reputation> == 0 => your healthy life index is <get healthscore>, your lifestyle is not healthy enough. {topic=random}
+  
+  * <get reputation> < 0 => your healthy life index is <get healthscore>, your lifestyle is terrible!{topic=random}
+
+<topic
+
+  + *
+  - Say "Hello Tias" to start chatting with me.

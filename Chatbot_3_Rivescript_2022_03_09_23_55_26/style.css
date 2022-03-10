@@ -1,0 +1,19 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+canvas {
+  display: block;
+}
+#male, #female {
+  position: absolute;
+  visibility: visible;
+  text-align: center;
+  top: 50%;
+}
+#male{
+  left: 30%;
+}
+#female{
+  right:30%
+}
